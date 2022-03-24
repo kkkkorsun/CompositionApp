@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import com.composition.app.databinding.FragmentGameFinishedBinding
 import com.composition.app.domain.entity.GameResult
@@ -31,6 +32,15 @@ class GameFinishedFragment : Fragment() {
         return binding.root
     }
 
+//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+//        super.onViewCreated(view, savedInstanceState)
+////        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+////            override fun handleOnBackPressed() {
+////                retryGame()
+////            }
+////        })
+//    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
@@ -40,6 +50,10 @@ class GameFinishedFragment : Fragment() {
         gameResult = requireArguments().getSerializable(GAME_RESULT) as GameResult
         Log.d("game", gameResult.toString())
     }
+
+//    private fun retryGame() {
+////        requireActivity().supportFragmentManager.popBackStack
+//    }
 
     companion object {
 

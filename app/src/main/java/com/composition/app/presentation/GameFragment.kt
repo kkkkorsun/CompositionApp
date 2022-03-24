@@ -51,6 +51,7 @@ class GameFragment : Fragment() {
     }
 
     private fun showGameResult(gameResult: GameResult) {
+        requireActivity().supportFragmentManager.popBackStack()
         requireActivity().supportFragmentManager.beginTransaction()
             .replace(R.id.main_container, GameFinishedFragment.newInstance(gameResult))
             .addToBackStack(null)
