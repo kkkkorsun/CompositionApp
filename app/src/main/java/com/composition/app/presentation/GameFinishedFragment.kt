@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.composition.app.databinding.FragmentGameFinishedBinding
 import com.composition.app.domain.entity.GameResult
 
@@ -32,14 +33,16 @@ class GameFinishedFragment : Fragment() {
         return binding.root
     }
 
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-////        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
-////            override fun handleOnBackPressed() {
-////                retryGame()
-////            }
-////        })
-//    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    retryGame()
+                }
+            })
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -51,9 +54,12 @@ class GameFinishedFragment : Fragment() {
         Log.d("game", gameResult.toString())
     }
 
-//    private fun retryGame() {
-////        requireActivity().supportFragmentManager.popBackStack
-//    }
+    private fun retryGame() {
+        requireActivity().supportFragmentManager.popBackStack(
+            GameFragment.NAME,
+            FragmentManager.POP_BACK_STACK_INCLUSIVE
+        )
+    }
 
     companion object {
 
