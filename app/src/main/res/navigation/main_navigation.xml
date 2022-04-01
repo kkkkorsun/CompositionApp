@@ -43,5 +43,9 @@
         android:id="@+id/gameFinishedFragment"
         android:name="com.composition.app.presentation.GameFinishedFragment"
         android:label="fragment_game_finished"
-        tools:layout="@layout/fragment_game_finished" />
+        tools:layout="@layout/fragment_game_finished" >
+        <argument
+            android:name="result"
+            app:argType="com.composition.app.domain.entity.GameResult" />
+    </fragment>
 </navigation>
