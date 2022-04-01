@@ -18,9 +18,9 @@ import com.composition.app.domain.entity.Level
 
 class GameFragment : Fragment() {
 
-    private lateinit var level: Level
     private val viewModelFactory by lazy {
-        GameViewModelFactory(level, requireActivity().application)
+        val args = GameFragmentArgs.fromBundle(requireArguments())
+        GameViewModelFactory(args.level, requireActivity().application)
     }
     private val viewModel by lazy {
         ViewModelProvider(this, viewModelFactory)[GameViewModel::class.java]
@@ -41,10 +41,6 @@ class GameFragment : Fragment() {
     private val binding: FragmentGameBinding
         get() = _binding ?: throw RuntimeException("FragmentGameBinding == null")
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        parseArgs()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -115,24 +111,13 @@ class GameFragment : Fragment() {
         return ContextCompat.getColor(requireContext(), colorResId)
     }
 
-    private fun parseArgs() {
-        requireArguments().getParcelable<Level>(KEY_LEVEL)?.let {
-            level = it
-        }
-    }
-
     private fun showGameResult(gameResult: GameResult) {
         val args = Bundle().apply {
             putParcelable(GameFinishedFragment.GAME_RESULT, gameResult)
         }
-        if(findNavController().currentDestination?.id == R.id.gameFragment){
+        if (findNavController().currentDestination?.id == R.id.gameFragment) {
             findNavController().navigate(R.id.action_gameFragment_to_gameFinishedFragment, args)
         }
-
-//        requireActivity().supportFragmentManager.beginTransaction()
-//            .replace(R.id.main_container, GameFinishedFragment.newInstance(gameResult))
-//            .addToBackStack(null)
-//            .commit()
     }
 
     companion object {

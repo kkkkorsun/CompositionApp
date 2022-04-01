@@ -34,6 +34,9 @@
             app:destination="@id/gameFinishedFragment"
             app:popUpTo="@id/gameFragment"
             app:popUpToInclusive="true" />
+        <argument
+            android:name="level"
+            app:argType="com.composition.app.domain.entity.Level" />
     </fragment>
 
     <fragment
