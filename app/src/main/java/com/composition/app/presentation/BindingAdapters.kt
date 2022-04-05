@@ -1,10 +1,20 @@
 package com.composition.app.presentation
 
+import android.content.Context
+import android.content.res.ColorStateList
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import com.composition.app.R
 import com.composition.app.domain.entity.GameResult
+import com.composition.app.domain.entity.Question
+
+interface OnOptionClickListener {
+    fun onOptionClick(option: Int)
+}
+
 
 @BindingAdapter("requiredAnswers")
 fun bindRequiredAnswers(textView: TextView, count: Int) {
@@ -39,8 +49,45 @@ fun bindScorePercentage(textView: TextView, gameResult: GameResult) {
 }
 
 @BindingAdapter("emojiResult")
-fun bindImageResult(imageView: ImageView, winner: Boolean){
+fun bindImageResult(imageView: ImageView, winner: Boolean) {
     imageView.setImageResource(setImageResource(winner))
+}
+
+@BindingAdapter("tvSum")
+fun bindSum(textView: TextView, question: Question) {
+    textView.text = question.sum.toString()
+}
+
+@BindingAdapter("tvLeftNumber")
+fun bindLeftNumber(textView: TextView, question: Question) {
+    textView.text = question.visibleNumber.toString()
+}
+
+@BindingAdapter("enoughCountOfRightAnswers")
+fun bindEnoughCountOfRightAnswers(textView: TextView, enough: Boolean) {
+    textView.setTextColor(getColorByState(textView.context, enough))
+}
+
+@BindingAdapter("enoughPercentOfRightAnswers")
+fun bindEnoughPercentOfRightAnswers(progressBar: ProgressBar, enough: Boolean) {
+    val color = getColorByState(progressBar.context, enough)
+    progressBar.progressTintList = ColorStateList.valueOf(color)
+}
+
+@BindingAdapter("onOptionClickListener")
+fun bindOnOptionClickListener(textView: TextView, clickListener: OnOptionClickListener) {
+    textView.setOnClickListener {
+        clickListener.onOptionClick(textView.text.toString().toInt())
+    }
+}
+
+private fun getColorByState(context: Context, enough: Boolean): Int {
+    val colorResId = if (enough) {
+        android.R.color.holo_green_light
+    } else {
+        android.R.color.holo_red_light
+    }
+    return ContextCompat.getColor(context, colorResId)
 }
 
 
